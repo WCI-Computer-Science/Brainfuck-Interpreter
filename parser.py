@@ -22,14 +22,22 @@ def parse(stream):
     i = 0
 
     c = stream.read(1)
+    while c.isspace(): c = stream.read(1)
     while c:
         x = gettok(c, i)
-        if x != 8:
+        if x < 7:
             program.append((x,))
+        elif x == 7:
+            stack.append(i)
+            program.append(7)
         else:
-            try: program.append((x, stack.pop()))
+            try:
+                j = stack.pop()
+                program[j] = (7, i)
+                program.append((8, j))
             except: raise Exception("Need a matching \"[\" for \"]\" at position " + str(i))
         i += 1
         c = stream.read(1)
+        while c.isspace(): c = stream.read(1)
     
     return program
