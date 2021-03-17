@@ -1,8 +1,5 @@
 class Interpreter:
     def __init__(self, program, length=30000):
-        self.program = program
-        self.cursor = 0
-
         self.length = length
         self.cells = [0 for i in range(length)]
         self.ptr = 0
