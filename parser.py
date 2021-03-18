@@ -14,7 +14,7 @@ langspec = {
 
 def gettok(c, i):
     try: return langspec[c]
-    except: raise Exception("Unidentified token at position " + str(i))
+    except: return -1
 
 def parse(stream):
     program = []
@@ -22,9 +22,12 @@ def parse(stream):
     i = 0
 
     c = stream.read(1)
-    while c.isspace(): c = stream.read(1)
     while c:
         x = gettok(c, i)
+        if x < 0:
+            c = stream.read(1)
+            continue
+
         if x < 7:
             program.append((x,))
         elif x == 7:
@@ -38,6 +41,5 @@ def parse(stream):
             except: raise Exception("Need a matching \"[\" for \"]\" at position " + str(i))
         i += 1
         c = stream.read(1)
-        while c.isspace(): c = stream.read(1)
     
     return program

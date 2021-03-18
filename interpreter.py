@@ -7,47 +7,25 @@ class Interpreter:
         self.lptr = -1
         self.rptr = -1
     
-    def incrementPtr(self):
-        ptr += 1
-        if ptr >= length: raise Exception("Out of cell bounds")
+    def check(self):
+        if self.ptr < 0 or self.ptr >= self.length: raise Exception("Out of cell bounds at position " + str(self.ptr))
     
-    def decrementPtr(self):
-        ptr -= 1
-        if ptr < 0: raise Exception("Out of cell bounds")
-    
-    def incrementCell(self):
-        cells[ptr] += 1
-    
-    def decrementCell(self):
-        cells[ptr] -= 1
-    
-    def outputCell(self):
-        print(chr(cells[ptr]))
-
-    def inputCell(self):
-        cells[ptr] = int(input())
-    
-
     def parse(self, stmt):
+        self.check()
+        #print(self.cells[:20])
         if stmt[0] == 1:
-            incrementPtr()
+            self.ptr += 1
         elif stmt[0] == 2:
-            decrementPtr()
+            self.ptr -= 1
         elif stmt[0] == 3:
-            incrementCell()
+            self.cells[self.ptr] += 1
         elif stmt[0]  == 4:
-            decrementCell()
+            self.cells[self.ptr] -= 1
         elif stmt[0] == 5:
-            outputCell()
+            print(chr(self.cells[self.ptr]), end="")
         elif stmt[0] == 6:
-            inputCell()
+            self.cells[self.ptr] = int(input())
         elif stmt[0] == 7:
-            if cells[ptr]:
-                incrementCell()
-            else:
-                ptr = stmt[1]+1
+            if not self.cells[self.ptr]: return True
         else:
-            if cells[ptr]:
-                ptr = stmt[1]+1
-            else:
-                incrementCell()
+            if self.cells[self.ptr]: return True
