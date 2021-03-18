@@ -12,9 +12,8 @@ langspec = {
     "]": 8
 }
 
-def gettok(c, i):
-    try: return langspec[c]
-    except: return -1
+def gettok(c):
+    return langspec.get(c)
 
 def parse(stream):
     program = []
@@ -23,8 +22,8 @@ def parse(stream):
 
     c = stream.read(1)
     while c:
-        x = gettok(c, i)
-        if x < 0:
+        x = gettok(c)
+        if not x:
             c = stream.read(1)
             continue
 
